@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#define trail 5
+#define trail 10
 int contagion_constant=trail-1;
 int iterations=10;
 
@@ -20,17 +20,23 @@ struct Person {
 int vertical_movement(){
 	return rand()%2;
 }
+void initialize_coordinates(int i,int n, int m,int grid[n][m], int population,
+				struct Person person[population]){
 
+	for (int j=1;j<trail;j++){
+		person[i].x[j]=person[i].x[j-1];
+		person[i].y[j]=person[i].y[j-1];		
+	}
+}
 void move_trail(int n, int m,int grid[n][m], int population,
 				struct Person person[population]){
 
 	for (int i=0;i<population;i++){
-		
 		for (int j=trail-1;j>0;j--){
 			person[i].x[j]=person[i].x[j-1];
 			person[i].y[j]=person[i].y[j-1];
 			grid[person[i].x[j]][person[i].y[j]]=contagion_constant-j;
-			printf("%d:%d,%d\n", j, person[i].x[j],person[i].y[j]);
+			//printf("%d:%d,%d\n", j, person[i].x[j],person[i].y[j]);
 		}
 	}
 }
@@ -41,10 +47,16 @@ void move_points(int n, int m,int grid[n][m], int population,
 	//move the point one place
 	for (int i=0;i<population;i++){
 		if (vertical_movement()){
-			person[i].x[0]+=rand()%3-1;
+			person[i].x[0]=(person[i].x[0]+rand()%3-1)%n;
+			if (person[i].x[0]==-1){
+				person[i].x[0]=n-1;
+			}
 		}
 		else{
-			person[i].x[0]+=rand()%3-1;
+			person[i].y[0]=(person[i].y[0]+rand()%3-1)%m;
+			if (person[i].y[0]==-1){
+				person[i].y[0]=m-1;
+			}
 		}
 		grid[person[i].x[0]][person[i].y[0]]=contagion_constant;
 	} 
@@ -74,29 +86,27 @@ int main()
 	int grid[n][m];
 	memset(grid, 0, sizeof(grid));
 	
-	int population=1;
+	int population=5;
 	struct Person person[population];
 	printf("%ld\n",sizeof(person)/sizeof(person[0]));
 	
 	for (int i= 0; i<population;i++){
 		person[i].x[0]=rand()%n;
 		person[i].y[0]=rand()%m;
+		initialize_coordinates(i,n,m,grid,population,person);
 		grid[person[i].x[0]][person[i].y[0]]=contagion_constant;
 	}
 	
 	//we move the points
+
 	for (int i=0;i<iterations;i++){
+
 		sleep(1);
 		move_points(n,m,grid,population,person);
 		print_grid(n,m,grid);
 		printf("\n");
 	}
-
-	
-	
 	//rand()% (65 + 1 - 0) + 0;
-
-	
 
     return 0;
 }
