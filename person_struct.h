@@ -6,10 +6,10 @@
 struct Person {
     
     float contagion_probability;
-    int age; // <- NUEVO
+    float mortality_probability; // <- NUEVO
+    bool risk_pobaltion; // <- NUEVO; 1 if person above 60 (risk), 0 if not
     int status; // 0 healthy, 1 sick, 3 cured, -1 dead
     int illness; // define some chronic disease, not chronic, doesn't hace illnes
-    int mortality_probability; // <- NUEVO
     int time_left; //counter for time to be cured or death basen on the stats above 
     double x;
     double y; 
