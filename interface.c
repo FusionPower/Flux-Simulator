@@ -22,16 +22,21 @@ GtkWidget *init_window(void){
     return window;
 }
 
+GtkWidget *init_grid(GtkWidget *window){
+    GtkWidget *grid = gtk_grid_new();
+    gtk_container_set_border_width ( GTK_CONTAINER ( grid ), 15 );
+    gtk_grid_set_column_spacing ( GTK_GRID ( grid ), 3 );
+    gtk_grid_set_row_spacing ( GTK_GRID ( grid ), 3 );
+    gtk_container_add(GTK_CONTAINER(window), grid);
+    return grid;
+}
+
 int main (int argc, char *argv[]) {
     GtkWidget *window, *boxes[n][m], *grid;
     gtk_init(&argc, &argv);
 
     window = init_window();
-    grid = gtk_grid_new();
-    gtk_container_set_border_width ( GTK_CONTAINER ( grid ), 15 );
-    gtk_grid_set_column_spacing ( GTK_GRID ( grid ), 3 );
-    gtk_grid_set_row_spacing ( GTK_GRID ( grid ), 3 );
-    gtk_container_add(GTK_CONTAINER(window), grid);
+    grid = init_grid(window);
 
     for (int i=0; i<n; i++){
         for (int j=0; j<m; j++){
