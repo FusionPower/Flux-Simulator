@@ -4,8 +4,8 @@
 #include <time.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include "person_struct.h"
 
-#define trail 5
 int contagion_constant=trail-1;
 int iterations=20;
 //grid parameters
@@ -16,15 +16,15 @@ int population=50;
 int initial_diseased=1;
 
 
-struct Person {
+// struct Person {
     
-    float contagion_probability; 
-    int status; // -1 healthy, -1cured, 2 diseased, 3 dead
-    int illness; // define some chronic disease, not chronic, doesn't have illnes
-    int time_left; //counter for time to be cured or death basen on the stats above 
-    int x[trail];
-    int y[trail];
-};
+//     float contagion_probability; 
+//     int status; // -1 healthy, -1cured, 2 diseased, 3 dead
+//     int illness; // define some chronic disease, not chronic, doesn't have illnes
+//     int time_left; //counter for time to be cured or death basen on the stats above 
+//     int x[trail];
+//     int y[trail];
+// };
 
 
 void initialize_coordinates(int i,int grid[n][m], int population,
