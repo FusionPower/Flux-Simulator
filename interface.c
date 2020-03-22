@@ -1,4 +1,10 @@
 #include <gtk/gtk.h>
+/*
+Para correr se necesita agregar `pkg-config --cflags --libs gtk+-3.0` al final del commando gcc, ejemplo:
+gcc interface.c -o interface `pkg-config --cflags --libs gtk+-3.0`
+
+Nota: NO son comillas, hasta donde se deben ser backticks, lo cual normalmente esta en los teclados americano
+*/
 
 int main (int argc, char *argv[]) {
     GtkWidget *window, *screen;
