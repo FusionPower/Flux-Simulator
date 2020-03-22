@@ -16,21 +16,19 @@ int population=50;
 int initial_diseased=1;
 
 
-// struct Person {
-    
-//     float contagion_probability; 
-//     int status; // -1 healthy, -1cured, 2 diseased, 3 dead
-//     int illness; // define some chronic disease, not chronic, doesn't have illnes
-//     int time_left; //counter for time to be cured or death basen on the stats above 
-//     int x[trail];
-//     int y[trail];
-// };
+void expand_radius(int i ,int grid[m][n], struct Person person[population]){
+	if (person[i].x[0] - 1 >= 0){
+		if (person[i].x[0] )
+
+
+	}
+}
 
 
 void initialize_coordinates(int i,int grid[n][m], int population,
 							struct Person person[population]){
 
-	for (int j=1;j<trail;j++){
+	for (int j=1;j<trail;j++){ 
 		person[i].x[j]=person[i].x[j-1];
 		person[i].y[j]=person[i].y[j-1];		
 	}
@@ -42,12 +40,12 @@ void initialize_population(int grid[n][m],struct Person person[population]){
 		person[i].y[0]=rand()%m;
 		initialize_coordinates(i,grid,population,person);
 		if (i<initial_diseased){
-			person[i].status=2;
-			grid[person[i].x[0]][person[i].y[0]]=contagion_constant;		
+			person[i].status = 2;
+			grid[person[i].x[0]][person[i].y[0]] = contagion_constant;		
 		}
 		else{
-			person[i].status=-1;
-			grid[person[i].x[0]][person[i].y[0]]=1;		
+			person[i].status = 1;
+			grid[person[i].x[0]][person[i].y[0]] = 1;		
 		}
 
 	}
@@ -55,6 +53,8 @@ void initialize_population(int grid[n][m],struct Person person[population]){
 
 
 }
+
+
 void move_trail(int i,int grid[n][m], int population,struct Person person[population]){
 
 
@@ -65,6 +65,8 @@ void move_trail(int i,int grid[n][m], int population,struct Person person[popula
 			//printf("%d:%d,%d\n", j, person[i].x[j],person[i].y[j]);
 		}
 }
+
+
 int new_coordinates(int x, int y,int *newx, int *newy){
 	int movement=rand()%5;
 	switch (movement){
