@@ -20,6 +20,10 @@ int main (int argc, char *argv[]) {
 
     button = gtk_button_new_with_label("1");
     grid = gtk_grid_new();
+
+    gtk_container_set_border_width ( GTK_CONTAINER ( grid ), 15 );
+    gtk_grid_set_column_spacing ( GTK_GRID ( grid ), 4 );
+    gtk_grid_set_row_spacing ( GTK_GRID ( grid ), 4 );
     gtk_container_add(GTK_CONTAINER(window), grid);
 
     gtk_widget_show_all(window);
