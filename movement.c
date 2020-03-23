@@ -15,6 +15,40 @@ int m=30;
 int population=50;
 int initial_diseased=1;
 
+bool compare(int a, int b){
+	return a%10 < b%10;
+}
+
+
+// int compare (const void *a, const void *b){
+// 	const 
+// }
+
+void retract_radius(int i, int grid[m][n], struct Person person[population]){
+	if (person[i].status == 2){
+		if (person[i].x[0] - 1 >= 0)
+			grid[person[i].x[0] - 1][person[i].y[0]] = 0;
+
+		if (person[i].x[0] + 1 < n)
+			grid[person[i].x[0] + 1][person[i].y[0]] = 0;
+
+		if (person[i].y[0] + 1 < m)
+			grid[person[i].x[0]][person[i].y[0] + 1] = 0;
+
+		if (person[i].y[0] - 1 >= 0)
+			grid[person[i].x[0]][person[i].y[0] - 1] = 0;
+
+		if (person[i].y[0] - 1 >= 0 && person[i].y[0] + 1 < m && person[i].x[0] - 1 >= 0 && person[i].x[0] + 1 < n){
+			grid[person[i].x[0] - 1][person[i].y[0] - 1] = 0;
+			grid[person[i].x[0] - 1][person[i].y[0] + 1] = 0;
+			grid[person[i].x[0] + 1][person[i].y[0] - 1] = 0;
+			grid[person[i].x[0] + 1][person[i].y[0] + 1] = 0;
+
+		}	
+	}
+			
+}
+
 
 void expand_radius(int grid[m][n], struct Person person[population]){
 	for (int i = 0; i < population; ++i){
@@ -61,8 +95,8 @@ void initialize_population(int grid[n][m],struct Person person[population]){
 		if (i<initial_diseased){
 			person[i].status = 2;
 			grid[person[i].x[0]][person[i].y[0]] = contagion_constant;
-					
 		}
+
 		else{
 			person[i].status = 1;
 			grid[person[i].x[0]][person[i].y[0]] = 1;		
@@ -186,6 +220,7 @@ int main()
 	printf("diseased: %d,healthy: %d\n", diseased,healthy);
 	for (int i=0;i<iterations;i++){
 		sleep(1);
+		retract_radius(i, grid, person);
 		move_points(grid,population,person,&diseased,&healthy);
 		expand_radius(grid, person);
 		print_grid(grid);
