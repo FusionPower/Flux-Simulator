@@ -16,11 +16,30 @@ int population=50;
 int initial_diseased=1;
 
 
-void expand_radius(int i ,int grid[m][n], struct Person person[population]){
-	if (person[i].x[0] - 1 >= 0){
-		if (person[i].x[0] )
+void expand_radius(int grid[m][n], struct Person person[population]){
+	for (int i = 0; i < population; ++i){
+		if (person[i].status == 2){
+			if (person[i].x[0] - 1 >= 0)
+				grid[person[i].x[0] - 1][person[i].y[0]] = contagion_constant - 1;
+			
+			if (person[i].x[0] + 1 < n)
+				grid[person[i].x[0] + 1][person[i].y[0]] = contagion_constant - 1;
 
+			if (person[i].y[0] + 1 < m)
+				grid[person[i].x[0]][person[i].y[0] + 1] = contagion_constant - 1;
+		
+			if (person[i].y[0] - 1 >= 0)
+				grid[person[i].x[0]][person[i].y[0] - 1] = contagion_constant - 1;
 
+			if (person[i].y[0] - 1 >= 0 && person[i].y[0] + 1 < m && person[i].x[0] - 1 >= 0 && person[i].x[0] + 1 < n){
+				grid[person[i].x[0] - 1][person[i].y[0] - 1] = contagion_constant - 1;
+				grid[person[i].x[0] - 1][person[i].y[0] + 1] = contagion_constant - 1;
+				grid[person[i].x[0] + 1][person[i].y[0] - 1] = contagion_constant - 1;
+				grid[person[i].x[0] + 1][person[i].y[0] + 1] = contagion_constant - 1;
+					
+			}	
+			
+		}
 	}
 }
 
@@ -35,13 +54,14 @@ void initialize_coordinates(int i,int grid[n][m], int population,
 }
 void initialize_population(int grid[n][m],struct Person person[population]){
 		
-	for (int i= 0; i<population;i++){
+	for (int i = 0; i<population;i++){
 		person[i].x[0]=rand()%n;
 		person[i].y[0]=rand()%m;
 		initialize_coordinates(i,grid,population,person);
 		if (i<initial_diseased){
 			person[i].status = 2;
-			grid[person[i].x[0]][person[i].y[0]] = contagion_constant;		
+			grid[person[i].x[0]][person[i].y[0]] = contagion_constant;
+					
 		}
 		else{
 			person[i].status = 1;
@@ -56,7 +76,6 @@ void initialize_population(int grid[n][m],struct Person person[population]){
 
 
 void move_trail(int i,int grid[n][m], int population,struct Person person[population]){
-
 
 		for (int j=trail-1;j>0;j--){
 			person[i].x[j]=person[i].x[j-1];
@@ -156,11 +175,10 @@ int main()
 	int grid[n][m];
 	memset(grid, 0, sizeof(grid));
 	
-
 	struct Person person[population];
 	//printf("%ld\n",sizeof(person)/sizeof(person[0]));
 	initialize_population(grid,person);
-	
+	expand_radius(grid, person);
 	print_grid(grid);
 	//iterations
 	int diseased=initial_diseased;
@@ -169,6 +187,7 @@ int main()
 	for (int i=0;i<iterations;i++){
 		sleep(1);
 		move_points(grid,population,person,&diseased,&healthy);
+		expand_radius(grid, person);
 		print_grid(grid);
 		printf("diseased: %d,healthy: %d\n", diseased,healthy);
 
